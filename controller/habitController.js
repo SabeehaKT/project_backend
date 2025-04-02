@@ -1,5 +1,46 @@
 const habitModel = require('../model/habitModel')
 
+const axios = require("axios");
+
+const API_KEY = "AIzaSyA3f4yqBJb_Xtbpe1u0r6E1gm-VBCB6HYM"; // Replace with your actual YouTube API key
+const BASE_URL = "https://www.googleapis.com/youtube/v3/search";
+
+// Fetch YouTube videos based on habit category
+exports.getVideoSuggestions = async (req, res) => {
+  const { category } = req.query; // Get category from query params
+
+  if (!category) {
+    return res
+      .status(400)
+      .json({ success: false, error: "Category is required" });
+  }
+
+  try {
+    const response = await axios.get(BASE_URL, {
+      params: {
+        part: "snippet",
+        q: `${category} tutorial`, // Customize search query
+        type: "video",
+        maxResults: 5,
+        key: API_KEY,
+      },
+    });
+
+    const videos = response.data.items.map((video) => ({
+      title: video.snippet.title,
+      description: video.snippet.description,
+      videoId: video.id.videoId,
+      thumbnail: video.snippet.thumbnails.high.url,
+      publishedAt: video.snippet.publishedAt,
+    }));
+
+    res.json({ success: true, data: videos });
+  } catch (error) {
+    console.error("Error fetching YouTube videos:", error);
+    res.status(500).json({ success: false, error: "Failed to fetch videos" });
+  }
+};
+
 const areConsecutiveDays = (date1, date2) => {
     const d1 = new Date(date1).setHours(0, 0, 0, 0);
     const d2 = new Date(date2).setHours(0, 0, 0, 0);
@@ -66,7 +107,7 @@ const areConsecutiveDays = (date1, date2) => {
     }
   };
 
-  exports.getHabit = async (req, res) => {
+  exports.getHabitById = async (req, res) => {
     try {
       const habit = await habitModel.findOne({
         _id: req.params.id,

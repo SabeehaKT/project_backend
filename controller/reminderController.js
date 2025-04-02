@@ -2,6 +2,7 @@ const reminderModel = require('../model/reminderModel')
 const userModel = require('../model/userModel')
 const habitModel = require('../model/habitModel')
 
+
 exports.registerReminder = async (req, res) => {
     try {
       const { title, time, days, frequency } = req.body;

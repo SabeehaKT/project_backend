@@ -21,7 +21,7 @@ const habitSchema = new mongoose.Schema({
   }],
   category: {
     type: String,
-    enum: ['health', 'fitness', 'productivity', 'learning', 'mindfulness', 'other'],
+    enum: ['health', 'fitness', 'productivity', 'learning', 'mindfulness','sleep','diet', 'other'],
     required: [true, 'Category is required']
   },
   streak: {

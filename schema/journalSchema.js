@@ -21,6 +21,11 @@ const journalSchema = new mongoose.Schema({
       ref: "User",
     required: true, // Assuming journals are tied to users
     },
+    image: {
+      type: String, // Store the image path (e.g., "/uploads/filename.jpg")
+      trim: true,
+      default: null, // Optional field
+    },
   });
 
   module.exports = journalSchema;

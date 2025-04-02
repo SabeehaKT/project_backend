@@ -6,7 +6,10 @@ const jwt = require("jsonwebtoken");
 // Register a new user
 exports.register = async (req, res) => {
     try {
-      const { email, password } = req.body;
+      const { username, email, password } = req.body;
+      if (!username || username.length < 3) {
+        return res.status(400).json({ success: false, message: "Invalid username" });
+      }
       
       // Basic validation
       if (!email || !password) {
@@ -44,21 +47,21 @@ exports.register = async (req, res) => {
   
       // Create new user with status
       const newUser = new userModel({
+        username, // Add username to the new user object
         email,
         password: hashedPassword,
         status: 'active',
         // Additional fields could be added as needed
       });
-
       console.log("Request body:", req.body);
 
-// After creating newUser
-console.log("About to save user:", {
-  id: newUser._id,
-  email: newUser.email,
-  hasPassword: !!newUser.password,
-  passwordLength: newUser.password ? newUser.password.length : 0
-});
+      // After creating newUser
+      console.log("About to save user:", {
+        id: newUser._id,
+        email: newUser.email,
+        hasPassword: !!newUser.password,
+        passwordLength: newUser.password ? newUser.password.length : 0
+      });
   
       await newUser.save();
   
@@ -75,6 +78,7 @@ console.log("About to save user:", {
         token,
         user: {
           id: newUser._id,
+          username: newUser.username, // Include username in the response
           email: newUser.email,
           status: newUser.status
         }
@@ -121,7 +125,9 @@ exports.login = async (req, res) => {
       token,
       user: {
         id: user._id,
-        email: user.email
+        username: user.username,
+        email: user.email,
+        status: user.status
       }
     });
   } catch (error) {
