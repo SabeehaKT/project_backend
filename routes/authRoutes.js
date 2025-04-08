@@ -70,6 +70,7 @@ router.post('/registerReminder', auth, reminderController.registerReminder);
 router.get('/reminders', auth, reminderController.getReminders);
 router.put('/updateReminder', auth, reminderController.updateReminderStatus);
 router.post('/completeHabit', auth, reminderController.completeHabit);
+router.post('/saveNotificationToken', auth, reminderController.saveNotificationToken);
 
 router.get("/getprofile", auth, profileController.getProfile);
 router.put("/updateprofile/:id", auth, profileController.updateProfile);

@@ -2,7 +2,7 @@ const habitModel = require('../model/habitModel')
 
 const axios = require("axios");
 
-const API_KEY = "AIzaSyA3f4yqBJb_Xtbpe1u0r6E1gm-VBCB6HYM"; // Replace with your actual YouTube API key
+const API_KEY = "AIzaSyA3f4yqBJb_Xtbpe1u0r6E1gm-VBCB6HYM"; 
 const BASE_URL = "https://www.googleapis.com/youtube/v3/search";
 
 // Fetch YouTube videos based on habit category

@@ -33,6 +33,21 @@ exports.registerReminder = async (req, res) => {
   
       // Save the reminder
       await newReminder.save();
+      const message = {
+        notification: {
+            title: "New Reminder Set",
+            body: `Your reminder "${title}" is set for ${time}`
+        },
+        token: user.fcmToken
+    };
+
+    admin.messaging().send(message)
+            .then(response => {
+                console.log("Notification sent successfully:", response);
+            })
+            .catch(error => {
+                console.error("Error sending notification:", error);
+            });
   
       return res.status(200).json({
         success: true,
@@ -129,5 +144,21 @@ exports.registerReminder = async (req, res) => {
         success: false,
         error: 'Failed to complete habit'
       });
+    }
+  };
+
+  exports.saveNotificationToken = async (req, res) => {
+    try {
+      const { userId, token } = req.body;
+      
+      // Save to your database (adjust according to your schema)
+      await User.findByIdAndUpdate(userId, { 
+        $set: { fcmToken: token }
+      });
+      
+      res.status(200).json({ success: true });
+    } catch (error) {
+      console.error("Error saving notification token:", error);
+      res.status(500).json({ success: false, error: "Failed to save notification token" });
     }
   };
