@@ -58,6 +58,7 @@ router.delete('/deleteHabit/:id',auth,habitController.deleteHabit)
 router.post('/mark-complete', auth, habitController.markHabitComplete);
 router.get("/stats", auth, habitController.getHabitStats);
 router.get("/videosuggestions", auth, habitController.getVideoSuggestions);
+router.get("/getrecentactivity", auth, habitController.getUserRecentActivity);
 
 
 router.post("/addjournal",auth,upload.single("image"), journalController.addJournal);
