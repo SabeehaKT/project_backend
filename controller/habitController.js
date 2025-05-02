@@ -6,9 +6,9 @@ const { agenda } = require('../agendaConfig');
 const axios = require("axios");
 const { default: mongoose } = require('mongoose');
 
-const HF_API_KEY = "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"; // Your Hugging Face token
+const HF_API_KEY = process.env.HF_API_KEY // Your Hugging Face token
 const HF_API_URL = "https://api-inference.huggingface.co/models/google/flan-t5-small";// Model for text generation
-const API_KEY = "AIzaSyA3f4yqBJb_Xtbpe1u0r6E1gm-VBCB6HYM"; 
+const API_KEY = process.env.YOUTUBE_API_KEY
 const BASE_URL = "https://www.googleapis.com/youtube/v3/search";
 
 async function generateSearchQuery(habit) {
